@@ -212,20 +212,63 @@ function generateCandy() {
     }
 }
 
+// function slideCandy() {
+//     for (let c = 0; c < columns; c++) {
+//         let ind = rows - 1;
+//         for (let r = rows -1; r >= 0; r--) {
+//             if (board[r][c] !== 0) {
+//                 board[ind][c] = board[r][c];
+//                 document.getElementById(ind + "-" + c).src = getCandyImage(board[r][c]);
+//                 ind -= 1;
+//             }
+//         }
+
+//         for (let r = ind; r >= 0; r--) {
+//             board[r][c] = 0;
+//             document.getElementById(r + "-" + c).src = getCandyImage(0);
+//         }
+//     }
+// }
+
 function slideCandy() {
+    let emptyColumns = [];
+
     for (let c = 0; c < columns; c++) {
         let ind = rows - 1;
+        let isEmptyColumn = true;
+
         for (let r = rows -1; r >= 0; r--) {
             if (board[r][c] !== 0) {
                 board[ind][c] = board[r][c];
                 document.getElementById(ind + "-" + c).src = getCandyImage(board[r][c]);
                 ind -= 1;
+                isEmptyColumn = false;
             }
         }
 
-        for (let r = ind; r >= 0; r--) {
-            board[r][c] = 0;
-            document.getElementById(r + "-" + c).src = getCandyImage(0);
+        if (isEmptyColumn) {
+            emptyColumns.push(c);
+        } else {
+            for (let r = ind; r >= 0; r--) {
+                board[r][c] = 0;
+                document.getElementById(r + "-" + c).src = getCandyImage(0);
+            }
         }
     }
+
+    // Shift columns to the left if there are any empty columns
+    emptyColumns.forEach((emptyColumn, index) => {
+        for (let c = emptyColumn - index; c < columns - 1; c++) {
+            for (let r = 0; r < rows; r++) {
+                board[r][c] = board[r][c + 1];
+                document.getElementById(r + "-" + c).src = getCandyImage(board[r][c]);
+            }
+        }
+
+        // Set the last column to be empty
+        for (let r = 0; r < rows; r++) {
+            board[r][columns - 1] = 0;
+            document.getElementById(r + "-" + (columns - 1)).src = getCandyImage(0);
+        }
+    });
 }
