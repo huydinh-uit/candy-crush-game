@@ -75,6 +75,7 @@ var candies = {
 var board = [];
 var rows = 8;
 var columns = 8;
+var totalScore = 0;
 
 window.onload = function() {
     startGame();
@@ -83,6 +84,7 @@ window.onload = function() {
         
         slideCandy();
         generateCandy();
+        // document.getElementById("score").innerText = totalScore;
     }, 100);
 }
 
@@ -163,10 +165,20 @@ function handleTileClick(r, c) {
 
     let sameTypeAdjacent = getSameTypeAdjacent(r, c);
     if (sameTypeAdjacent.length > 1) {
+        
         console.log("This candy has adjacent candies of the same type at the following positions:");
         sameTypeAdjacent.forEach(function(position) {
             console.log("(" + position.row + ", " + position.column + ")");
         });
+
+        // Calculate the score before removing the candies
+        let score = Math.pow(sameTypeAdjacent.length - 2, 2);
+        console.log("Score for this move: " + score);
+
+        // Update the total score
+        totalScore += score;
+        $('#score').text(totalScore);
+        console.log("Total score till this move: " + totalScore);
 
         console.log("Removing matched candies...");
         removeCandies(sameTypeAdjacent);
