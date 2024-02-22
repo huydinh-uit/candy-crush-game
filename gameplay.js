@@ -81,10 +81,12 @@ window.onload = function() {
     startGame();
     // generateCandy();
 
+    
+
     window.setInterval(function(){
         
         slideCandy();
-        if (canGameContinue()) {
+        if (canGameContinue()==false) {
             console.log("Game over. No more possible moves.");
             clearInterval(this);
         }
@@ -132,6 +134,11 @@ function getSameTypeAdjacent(r, c, visited = {}) {
 
     visited[key] = true;
     let candy = board[r][c];
+
+        if (candy === 0) {
+        return [];
+    }
+    
     let sameTypeAdjacent = [{row: r, column: c}];
 
     // Check the candy above
