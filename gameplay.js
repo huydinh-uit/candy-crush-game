@@ -84,7 +84,7 @@ window.onload = function() {
     window.setInterval(function(){
         
         slideCandy();
-        if (!canGameContinue()) {
+        if (canGameContinue()) {
             console.log("Game over. No more possible moves.");
             clearInterval(this);
         }
