@@ -84,6 +84,10 @@ window.onload = function() {
     window.setInterval(function(){
         
         slideCandy();
+        if (!canGameContinue()) {
+            console.log("Game over. No more possible moves.");
+            clearInterval(this);
+        }
         // generateCandy();
         // document.getElementById("score").innerText = totalScore;
     }, 100);
@@ -106,6 +110,18 @@ function startGame() {
         board.push(row);
     }
     console.log(board);
+}
+
+function canGameContinue() {
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < columns; c++) {
+            let sameTypeAdjacent = getSameTypeAdjacent(r, c);
+            if (sameTypeAdjacent.length > 1) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 function getSameTypeAdjacent(r, c, visited = {}) {
